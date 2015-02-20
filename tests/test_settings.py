@@ -12,13 +12,13 @@ class TestOriginModel:
     def test_origin_model_2_when_none_set_check_origin_model(self):
         assert actionitems_settings.ORIGIN_MODEL is None
 
-    @pytest.mark.run_with_origin 
+    @pytest.mark.run_with_origin
     def test_origin_model_3_when_set_check_use(self):
         assert actionitems_settings.USE_ORIGIN_MODEL is not False
 
     @pytest.mark.run_with_origin
     def test_origin_model_4_when_set_check_origin_model(self):
-        assert type(actionitems_settings.ORIGIN_MODEL) == type(TestModel)
+        assert actionitems_settings.ORIGIN_MODEL == 'tests.TestModel'
 
 
 class TestManagerList:
