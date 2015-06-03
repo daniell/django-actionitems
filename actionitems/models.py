@@ -5,6 +5,7 @@ from django.utils.html import strip_tags
 from django.db import models
 
 from actionitems.settings import *
+from actionitems.signals import done_status_changed
 
 
 class ActionItem(models.Model):
@@ -22,11 +23,20 @@ class ActionItem(models.Model):
         origin = models.ForeignKey(ORIGIN_MODEL, null=True, blank=True)
 
     def handle_done(self, actionitem):
+        self.handle_done_status_change()
         if not actionitem.done:
             actionitem.completed_on = None
         if actionitem.done and not actionitem.completed_on:
             actionitem.completed_on = datetime.utcnow().replace(tzinfo=utc)
-        return actionitem
+
+
+    def handle_done_status_change(self):
+        if not self.pk and self.done:
+            done_status_changed.send(self)
+        elif self.pk:
+            old_action_item = ActionItem.objects.get(pk=self.id)
+            if old_action_item.done != self.done:
+                done_status_changed.send(self)
 
     def save(self, *args, **kwargs):
         self.handle_done(self)
