@@ -12,22 +12,21 @@ class TestHandleDone(object):
     def test_handle_done_1_with_done_null(self):
         # With actionitem.done not set, completed on should be empty
         actionitem = ActionItem()
-        actionitem = actionitem.handle_done(actionitem)
+        actionitem.handle_done()
         assert actionitem.completed_on is None
 
     def test_handle_done_2_with_done_null_when_completed_on_has_initial_value(self):
         # With actionitem.done not set, completed on should be forced empty
         actionitem = ActionItem()
         actionitem.completed_on = random_date()
-        print actionitem.completed_on
-        actionitem = actionitem.handle_done(actionitem)
+        actionitem.handle_done()
         assert actionitem.completed_on is None
 
     def test_handle_done_3_with_done_set_when_completed_on_has_not_been_set(self):
         # With actionitem.done set, completed on should be set
         actionitem = ActionItem()
         actionitem.done = True
-        actionitem = actionitem.handle_done(actionitem)
+        actionitem.handle_done()
         delta = actionitem.completed_on - datetime.utcnow().replace(tzinfo=utc)
         assert abs(delta) <= timedelta(milliseconds=10), 'Times are not almost equal'
 
@@ -35,7 +34,7 @@ class TestHandleDone(object):
         # Completed on should be removed if done is false
         actionitem = ActionItem()
         actionitem.completed_on = random_date()
-        actionitem = actionitem.handle_done(actionitem)
+        actionitem.handle_done()
         assert actionitem.completed_on is None
 
     def test_handle_done_5_with_done_true_and_completed_on_in_past_that_completed_on_remains(self):
@@ -43,7 +42,7 @@ class TestHandleDone(object):
         actionitem = ActionItem()
         actionitem.completed_on = completed_on = random_date()
         actionitem.done = True
-        actionitem = actionitem.handle_done(actionitem)
+        actionitem.handle_done()
         assert actionitem.completed_on == completed_on
 
 
@@ -69,7 +68,6 @@ class TestTitle(object):
         actionitem = ActionItem()
         actionitem.description = description
         assert actionitem.title() == description[:140]
-
 
 
 class TestOriginModel(object):

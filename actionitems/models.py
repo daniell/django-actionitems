@@ -22,13 +22,12 @@ class ActionItem(models.Model):
     if USE_ORIGIN_MODEL:
         origin = models.ForeignKey(ORIGIN_MODEL, null=True, blank=True)
 
-    def handle_done(self, actionitem):
+    def handle_done(self):
         self.handle_done_status_change()
-        if not actionitem.done:
-            actionitem.completed_on = None
-        if actionitem.done and not actionitem.completed_on:
-            actionitem.completed_on = datetime.utcnow().replace(tzinfo=utc)
-
+        if not self.done:
+            self.completed_on = None
+        if self.done and not self.completed_on:
+            self.completed_on = datetime.utcnow().replace(tzinfo=utc)
 
     def handle_done_status_change(self):
         if not self.pk and self.done:
@@ -39,7 +38,7 @@ class ActionItem(models.Model):
                 done_status_changed.send(self)
 
     def save(self, *args, **kwargs):
-        self.handle_done(self)
+        self.handle_done()
         super(ActionItem, self).save(*args, **kwargs)
 
     def title(self):
