@@ -1,5 +1,4 @@
-from datetime import datetime
-from django.utils.timezone import utc
+from django.utils import timezone
 
 from django.utils.html import strip_tags
 from django.db import models
@@ -14,7 +13,7 @@ class ActionItem(models.Model):
     deadline = models.DateField(null=True, blank=True)
     completed_on = models.DateTimeField(null=True, blank=True, editable=False)
     done = models.BooleanField(default=False)
-    created_on = models.DateTimeField(default=datetime.utcnow().replace(tzinfo=utc))
+    created_on = models.DateTimeField(default=timezone.now)
     updated_on = models.DateTimeField(null=True, blank=True)
     manager = models.CharField(max_length=10, choices=MANAGER_LIST, default=MANAGER_LIST[0][0])
 
@@ -27,7 +26,7 @@ class ActionItem(models.Model):
         if not self.done:
             self.completed_on = None
         if self.done and not self.completed_on:
-            self.completed_on = datetime.utcnow().replace(tzinfo=utc)
+            self.completed_on = timezone.now()
 
     def handle_done_status_change(self):
         if not self.pk and self.done:
