@@ -4,7 +4,7 @@ django-actionitems
 
 To use django-actionitems, add the actionitems directory to your project, and add <code>actionitems</code> to your INSTALLED_APPS in your project's settings.py
 
-If you are using Django 1.7+, you will also want to add <code>MIGRATION_MODULES = { 'actionitems': 'organizations.django_migrations' }</code> to your settings.py file.
+If you are using Django 1.7+, you will also want to add <code>MIGRATION_MODULES = { 'actionitems': 'actionitems.django_migrations' }</code> to your settings.py file.
 
 specifying an origin
 ====================
