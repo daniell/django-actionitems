@@ -31,3 +31,5 @@ class Migration(migrations.Migration):
 
     if settings.ACTIONITEMS_ORIGIN_MODEL:
         operations[0].fields.append(('origin', models.ForeignKey(blank=True, null=True, to=settings.ACTIONITEMS_ORIGIN_MODEL)))
+        origin_model_app = settings.ACTIONITEMS_ORIGIN_MODEL.split('.')[0]
+        dependencies = [(origin_model_app, '__first__')]
