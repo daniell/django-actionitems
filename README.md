@@ -4,6 +4,8 @@ django-actionitems
 
 To use django-actionitems, add the actionitems directory to your project, and add <code>actionitems</code> to your INSTALLED_APPS in your project's settings.py
 
+If you are using Django 1.7+, you will also want to add <code>MIGRATION_MODULES = { 'actionitems': 'organizations.django_migrations' }</code> to your settings.py file.
+
 specifying an origin
 ====================
 django-actionitems can store a reference to sommething that creates the actionitem. For example, an action item may be the result of a Meeting, Event, or Decision. django-actionitems calls this the origin. If you wish to link your actionitem to an origin, you can supply the model in your project's settings.py in the form appname.Model e.g.
