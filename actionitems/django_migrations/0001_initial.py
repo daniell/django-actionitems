@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 import datetime
 from django.utils.timezone import utc
+from django.conf import settings
 
 
 class Migration(migrations.Migration):
@@ -27,3 +28,6 @@ class Migration(migrations.Migration):
             ],
         ),
     ]
+
+    if settings.ACTIONITEMS_ORIGIN_MODEL:
+        operations[0].fields.append(('origin', models.ForeignKey(blank=True, null=True, to=settings.ACTIONITEMS_ORIGIN_MODEL)))
